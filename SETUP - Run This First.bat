@@ -9,7 +9,7 @@ echo.
 echo  This will take about 1 minute...
 echo  Do NOT close this window.
 echo.
-call npm install
+call npm install --legacy-peer-deps
 echo.
 echo  ==========================================
 echo    Setup complete! Opening preview...
