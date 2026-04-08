@@ -1,6 +1,7 @@
-import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile, Img } from 'remotion';
 
 // Slow cinematic pan and zoom on a still image
+// Shows dark placeholder if image file is missing — no crashes
 export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale = 1.12 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
@@ -22,7 +23,6 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
     extrapolateRight: 'clamp',
   });
 
-  // Fade in at start, fade out at end
   const opacity = interpolate(
     frame,
     [0, 20, durationInFrames - 20, durationInFrames],
@@ -31,22 +31,24 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
   );
 
   return (
-    <AbsoluteFill style={{ overflow: 'hidden', opacity }}>
-      <img
-        src={staticFile(`images/${src}`)}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          transform: `scale(${scale}) translate(${x}%, ${y}%)`,
-          transformOrigin: 'center center',
-        }}
-      />
-      {/* Dark vignette overlay for cinematic feel */}
+    <AbsoluteFill style={{ overflow: 'hidden', opacity, backgroundColor: '#1a0f00' }}>
+      {src && (
+        <Img
+          src={staticFile(`images/${src}`)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: `scale(${scale}) translate(${x}%, ${y}%)`,
+            transformOrigin: 'center center',
+          }}
+          onError={() => {/* silently show dark background if image missing */}}
+        />
+      )}
+      {/* Dark vignette overlay */}
       <AbsoluteFill
         style={{
-          background:
-            'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)',
         }}
       />
     </AbsoluteFill>
