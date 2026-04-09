@@ -16,7 +16,7 @@ export const ScriptureScene = ({ scripture, image, platform = 'youtube' }) => {
       {/* Parchment scroll background */}
       <AbsoluteFill style={{ opacity: bgOpacity }}>
         <img
-          src={`http://localhost:3001/images/${image}`}
+          src={`/public/images/${image}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <AbsoluteFill style={{ backgroundColor: 'rgba(0,0,0,0.45)' }} />

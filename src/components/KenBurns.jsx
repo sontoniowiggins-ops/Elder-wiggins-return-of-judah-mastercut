@@ -34,7 +34,7 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
     <AbsoluteFill style={{ overflow: 'hidden', opacity, backgroundColor: '#1a0f00' }}>
       {src && (
         <img
-          src={`http://localhost:3001/images/${src}`}
+          src={`/public/images/${src}`}
           style={{
             width: '100%',
             height: '100%',
