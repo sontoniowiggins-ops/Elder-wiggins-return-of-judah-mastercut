@@ -6,11 +6,11 @@ echo  ==========================================
 echo    RETURN OF JUDAH - Starting Preview
 echo  ==========================================
 echo.
-echo  Starting image server...
-start "Image Server" /min cmd /c "node image-server.js & pause"
-timeout /t 3 /nobreak >nul
-echo  Opening browser in 3 seconds...
-timeout /t 3 /nobreak >nul
+echo  Starting image server on port 3001...
+start "Image Server" /min cmd /k "node image-server.js"
+echo  Waiting for server to start...
+timeout /t 4 /nobreak >nul
+echo  Opening Remotion Studio...
 start http://localhost:3000
 echo.
 echo  Do NOT close this window.
