@@ -1,4 +1,4 @@
-import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile, Img } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile } from 'remotion';
 
 // Slow cinematic pan and zoom on a still image
 // Shows dark placeholder if image file is missing — no crashes
@@ -33,7 +33,7 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
   return (
     <AbsoluteFill style={{ overflow: 'hidden', opacity, backgroundColor: '#1a0f00' }}>
       {src && (
-        <Img
+        <img
           src={staticFile(`images/${src}`)}
           style={{
             width: '100%',
@@ -42,7 +42,7 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
             transform: `scale(${scale}) translate(${x}%, ${y}%)`,
             transformOrigin: 'center center',
           }}
-          onError={() => {/* silently show dark background if image missing */}}
+          onError={(e) => { e.target.style.display = 'none'; }}
         />
       )}
       {/* Dark vignette overlay */}
