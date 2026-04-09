@@ -27,7 +27,7 @@ export const SCENES = [
     id: 'jerusalem-70ad',
     type: 'scene',
     image: 'scene-02-jerusalem.png',
-    audio: 'scene-02.mp3',
+    audio: null, // set to 'scene-02.mp3' once audio is generated
     durationInSeconds: 25,
     colorGrade: 'fire',
     lines: [
@@ -45,7 +45,7 @@ export const SCENES = [
     id: 'spain-portugal',
     type: 'scene',
     image: 'scene-03-spain.png',
-    audio: 'scene-03.mp3',
+    audio: null, // set to 'scene-03.mp3' once audio is generated
     durationInSeconds: 20,
     colorGrade: 'warm-to-dark',
     lines: [
@@ -61,7 +61,7 @@ export const SCENES = [
     id: 'west-africa',
     type: 'scene',
     image: 'scene-04-westafrica.png',
-    audio: 'scene-04.mp3',
+    audio: null, // set to 'scene-04.mp3' once audio is generated
     durationInSeconds: 20,
     colorGrade: 'warm-gold',
     lines: [
@@ -77,7 +77,7 @@ export const SCENES = [
     id: 'maps',
     type: 'scene',
     image: 'scene-05-maps.png',
-    audio: 'scene-05.mp3',
+    audio: null, // set to 'scene-05.mp3' once audio is generated
     durationInSeconds: 20,
     colorGrade: 'sepia',
     lines: [
@@ -95,7 +95,7 @@ export const SCENES = [
     id: 'slavery-prophecy',
     type: 'scene',
     image: 'scene-06-slavery.png',
-    audio: 'scene-06.mp3',
+    audio: null, // set to 'scene-06.mp3' once audio is generated
     durationInSeconds: 15,
     colorGrade: 'cold',
     lines: [
