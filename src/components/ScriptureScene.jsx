@@ -1,4 +1,5 @@
 import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill } from 'remotion';
+import { IMAGES } from '../image-data.js';
 
 // Opening scripture card — parchment image with verse text fading in
 export const ScriptureScene = ({ scripture, image, platform = 'youtube' }) => {
@@ -11,14 +12,19 @@ export const ScriptureScene = ({ scripture, image, platform = 'youtube' }) => {
     extrapolateRight: 'clamp',
   });
 
+  const key = image ? image.replace(/\.(png|jpg|jpeg|webp)$/, '') : null;
+  const imgSrc = key ? IMAGES[key] : null;
+
   return (
     <AbsoluteFill style={{ backgroundColor: '#000', overflow: 'hidden' }}>
       {/* Parchment scroll background */}
       <AbsoluteFill style={{ opacity: bgOpacity }}>
-        <img
-          src={`/public/images/${image}`}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        {imgSrc && (
+          <img
+            src={imgSrc}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )}
         <AbsoluteFill style={{ backgroundColor: 'rgba(0,0,0,0.45)' }} />
       </AbsoluteFill>
 
