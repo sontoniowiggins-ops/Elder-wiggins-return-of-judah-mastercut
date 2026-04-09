@@ -1,4 +1,4 @@
-import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill } from 'remotion';
 
 // Opening scripture card — parchment image with verse text fading in
 export const ScriptureScene = ({ scripture, image, platform = 'youtube' }) => {
@@ -16,7 +16,7 @@ export const ScriptureScene = ({ scripture, image, platform = 'youtube' }) => {
       {/* Parchment scroll background */}
       <AbsoluteFill style={{ opacity: bgOpacity }}>
         <img
-          src={staticFile(`images/${image}`)}
+          src={`http://localhost:3001/images/${image}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <AbsoluteFill style={{ backgroundColor: 'rgba(0,0,0,0.45)' }} />

@@ -1,4 +1,4 @@
-import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill, staticFile } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate, AbsoluteFill } from 'remotion';
 
 // Slow cinematic pan and zoom on a still image
 // Shows dark placeholder if image file is missing — no crashes
@@ -34,7 +34,7 @@ export const KenBurns = ({ src, direction = 'right', startScale = 1.0, endScale 
     <AbsoluteFill style={{ overflow: 'hidden', opacity, backgroundColor: '#1a0f00' }}>
       {src && (
         <img
-          src={staticFile(`images/${src}`)}
+          src={`http://localhost:3001/images/${src}`}
           style={{
             width: '100%',
             height: '100%',
