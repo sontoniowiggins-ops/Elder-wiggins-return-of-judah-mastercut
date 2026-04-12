@@ -24,6 +24,24 @@ export const SCENES = [
     narration: '',
   },
   {
+    id: 'deuteronomy-warning',
+    type: 'scene',
+    image: 'scene-07-deuteronomy.png',
+    audio: null,
+    durationInSeconds: 20,
+    colorGrade: 'warm',
+    lines: [
+      'Moses warned them…',
+      'Deuteronomy 28…',
+      'The Lord shall scatter thee…',
+      'among all people…',
+      'from one end of the earth…',
+      'to the other.',
+    ],
+    narration:
+      'Moses warned them… Deuteronomy 28… The Lord shall scatter thee among all people… from one end of the earth… to the other.',
+  },
+  {
     id: 'jerusalem-70ad',
     type: 'scene',
     image: 'scene-02-jerusalem.png',
@@ -107,6 +125,22 @@ export const SCENES = [
     ],
     narration:
       'And the Lord said… they would go into Egypt again… with ships… and yokes of iron… upon their neck.',
+  },
+  {
+    id: 'americas',
+    type: 'scene',
+    image: 'scene-08-americas.png',
+    audio: null,
+    durationInSeconds: 20,
+    colorGrade: 'cold',
+    lines: [
+      'The Lord shall bring thee…',
+      'into Egypt again…',
+      'with ships…',
+      'Deuteronomy 28:68',
+    ],
+    narration:
+      'The Lord shall bring thee into Egypt again… with ships… The isles beyond the sea… Judah… had arrived.',
   },
   {
     id: 'title-card',

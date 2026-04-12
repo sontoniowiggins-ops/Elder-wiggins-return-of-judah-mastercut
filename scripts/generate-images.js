@@ -65,6 +65,32 @@ const IMAGES = [
       'emotional powerful epic historical tone, ' + STYLE_LOCK,
   },
   {
+    filename: 'scene-07-deuteronomy.png',
+    scene: 'Deuteronomy 28 — Moses Warning',
+    prompt:
+      'Ancient Black Hebrew prophet standing on a mountain, deep brown skin, African phenotype, ' +
+      'long white robes, arms raised to the heavens, dramatic stormy sky behind him, ' +
+      'lightning in background, large crowd of Black Israelites below listening, ' +
+      'expressions of fear and solemnity, ancient stone tablets visible, ' +
+      'warm golden light from above cutting through dark clouds, ' +
+      'epic cinematic scale, documentary historical style, sharp detailed faces, ' +
+      'emotional and powerful, ' + STYLE_LOCK,
+  },
+  {
+    filename: 'scene-08-americas.png',
+    scene: 'The Americas — Judah Arrives at New World Shore',
+    prompt:
+      'Large wooden European slave ships arriving at a tropical Caribbean coastline, ' +
+      'palm trees, lush green hills, new world landscape, ' +
+      'Black captives with deep brown skin, African phenotype, iron chains at neck and wrists, ' +
+      'being forced off ships onto unfamiliar shores, ' +
+      'expressions of exhaustion, grief, and quiet dignity, ' +
+      'European colonizers in 16th century dress overseeing, ' +
+      'dramatic overcast golden-gray sky, ocean mist, cinematic wide shot, ' +
+      'hundreds of captives visible, overwhelming scale, ' +
+      'cold blue-gray color grading, emotional and powerful, ' + STYLE_LOCK,
+  },
+  {
     filename: 'scene-06-slavery.png',
     scene: 'Slavery — Iron Yokes and Slave Ship',
     prompt:
