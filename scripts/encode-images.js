@@ -8,12 +8,14 @@ const imagesDir = path.join(__dirname, '../public/images');
 const outputFile = path.join(__dirname, '../src/image-data.js');
 
 const sceneSlots = [
-  { key: 'scene-01-scroll',      label: 'Scene 1 – Prophecy / Scroll' },
-  { key: 'scene-02-jerusalem',   label: 'Scene 2 – Jerusalem 70 AD' },
-  { key: 'scene-03-spain',       label: 'Scene 3 – Spain / Portugal' },
-  { key: 'scene-04-westafrica',  label: 'Scene 4 – West Africa' },
-  { key: 'scene-05-maps',        label: 'Scene 5 – Ancient Maps' },
-  { key: 'scene-06-slavery',     label: 'Scene 6 – Slavery / Ships' },
+  { key: 'scene-01-scroll',       label: 'Scene 1 – Prophecy / Scroll' },
+  { key: 'scene-02-jerusalem',    label: 'Scene 2 – Jerusalem 70 AD' },
+  { key: 'scene-03-spain',        label: 'Scene 3 – Spain / Portugal' },
+  { key: 'scene-04-westafrica',   label: 'Scene 4 – West Africa' },
+  { key: 'scene-05-maps',         label: 'Scene 5 – Ancient Maps' },
+  { key: 'scene-06-slavery',      label: 'Scene 6 – Slavery / Ships' },
+  { key: 'scene-07-deuteronomy',  label: 'Scene 7 – Deuteronomy 28 / Moses' },
+  { key: 'scene-08-americas',     label: 'Scene 8 – The Americas' },
 ];
 
 const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp'];

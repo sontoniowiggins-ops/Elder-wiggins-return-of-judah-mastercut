@@ -6,10 +6,15 @@ echo  ==========================================
 echo    RETURN OF JUDAH - One Click Render
 echo  ==========================================
 echo.
-echo  Step 1: Encoding your images into the video...
+echo  Welcome Elder Wiggins!
+echo.
+echo  Step 1: Getting latest updates from Claude...
+git pull
+echo.
+echo  Step 2: Encoding your images into the video...
 node scripts/encode-images.js
 echo.
-echo  Step 2: Starting render (3-5 minutes)...
+echo  Step 3: Starting render (3-5 minutes)...
 echo  Do NOT close this window.
 echo.
 npx remotion render src/index.jsx SephardicYouTube out/youtube.mp4
@@ -20,7 +25,10 @@ if %errorlevel%==0 (
     echo  ==========================================
     start "" "%~dp0out"
 ) else (
-    echo  Something went wrong. See error above.
+    echo  ==========================================
+    echo    Something went wrong. See error above.
+    echo    Take a photo and send it to Claude.
+    echo  ==========================================
 )
 echo.
 pause

@@ -7,4 +7,6 @@ export const IMAGES = {
   'scene-04-westafrica': null,
   'scene-05-maps': null,
   'scene-06-slavery': null,
+  'scene-07-deuteronomy': null,
+  'scene-08-americas': null,
 };
