@@ -1,67 +1,114 @@
-# Google Drive Service Account Setup
+# HOW TO SET UP GOOGLE DRIVE UPLOAD
+# Do this ONE TIME. Then videos upload automatically.
 
-This folder holds your Google service account key file.
-**The JSON key file is in .gitignore and will NEVER be committed to GitHub.**
+================================================================
+PART 1 — GET THE KEY FILE FROM GOOGLE (5 steps)
+================================================================
 
----
+STEP 1: Open this link in your browser
+   https://console.cloud.google.com
 
-## One-Time Setup (15 minutes)
+   Sign in with your Google account.
 
-### Step 1 — Create a Google Cloud Project
-1. Go to https://console.cloud.google.com
-2. Click the project dropdown at the top → "New Project"
-3. Name it "Return of Judah" → Create
+----------------------------------------------------------------
 
-### Step 2 — Enable the Google Drive API
-1. In your project, go to "APIs & Services" → "Enable APIs and Services"
-2. Search for "Google Drive API" → Enable it
+STEP 2: Create a project
+   - At the very top of the page, click where it says "Select a project"
+   - Click "NEW PROJECT"
+   - In the Name box type:  Return of Judah
+   - Click CREATE
+   - Wait a few seconds, then click "Select a project" again and pick "Return of Judah"
 
-### Step 3 — Create a Service Account
-1. Go to "APIs & Services" → "Credentials"
-2. Click "Create Credentials" → "Service Account"
-3. Name: "return-of-judah-uploader" → Create and Continue → Done
-4. Click the service account you just created
-5. Go to the "Keys" tab → "Add Key" → "Create new key" → JSON → Create
-6. A JSON file downloads automatically — rename it `service-account.json`
-7. Move it into this `credentials/` folder
+----------------------------------------------------------------
 
-### Step 4 — Share a Drive Folder with the Service Account
-1. Open Google Drive in your browser
-2. Create a folder (e.g., "Return of Judah Videos") or use an existing one
-3. Right-click the folder → "Share"
-4. Open `credentials/service-account.json` and find `"client_email"` — it looks like:
-   `return-of-judah-uploader@your-project.iam.gserviceaccount.com`
-5. Paste that email into the Share dialog → set role to "Editor" → Send
+STEP 3: Turn on Google Drive
+   - On the left side, click "APIs & Services"
+   - Click "Enable APIs and Services"
+   - In the search box type:  Google Drive API
+   - Click it, then click the blue ENABLE button
 
-### Step 5 — Get the Folder ID
-1. Open the folder in Drive in your browser
-2. The URL looks like: `https://drive.google.com/drive/folders/THIS_IS_YOUR_FOLDER_ID`
-3. Copy the ID at the end
+----------------------------------------------------------------
 
-### Step 6 — Update Your .env File
-Open `.env` (copy from `.env.example` if it doesn't exist) and set:
-```
-GOOGLE_SERVICE_ACCOUNT_KEY_FILE=credentials/service-account.json
-GOOGLE_DRIVE_FOLDER_ID=paste-your-folder-id-here
-```
+STEP 4: Create a service account (this is like a robot account that uploads files)
+   - On the left side click "APIs & Services" then "Credentials"
+   - Click "Create Credentials" near the top
+   - Choose "Service Account"
+   - In the name box type:  uploader
+   - Click CREATE AND CONTINUE
+   - Click CONTINUE again
+   - Click DONE
 
-### Step 7 — Verify
-```
-node scripts/drive-setup-check.js
-```
-All checks should pass.
+----------------------------------------------------------------
 
----
+STEP 5: Download the key file
+   - You are still on the Credentials page
+   - Under "Service Accounts" you will see "uploader@..."  — click that
+   - Click the KEYS tab
+   - Click "ADD KEY" → "Create new key"
+   - Make sure JSON is selected → click CREATE
+   - A file downloads to your computer automatically
 
-## Usage
-After rendering a video, upload it with:
-```
-node scripts/upload-to-drive.js
-```
+   NOW:
+   - Find that downloaded file (it will have a long name like "return-of-judah-12345.json")
+   - Rename it to:  service-account.json
+   - Move it into this folder:  credentials/
+     (the same folder where this README file lives)
 
-Or render + upload in one command:
-```
-npm run render:upload
-```
+================================================================
+PART 2 — SHARE A DRIVE FOLDER WITH THE ROBOT ACCOUNT (3 steps)
+================================================================
 
-Or double-click `UPLOAD-TO-DRIVE.bat` on Windows.
+STEP 6: Open the service-account.json file you just put in credentials/
+   (Open it with Notepad)
+   Find the line that says "client_email" — it looks like this:
+      "client_email": "uploader@return-of-judah-12345.iam.gserviceaccount.com"
+   
+   Copy that email address (everything between the quote marks, not the quotes).
+
+----------------------------------------------------------------
+
+STEP 7: Share a Google Drive folder with that email
+   - Go to drive.google.com in your browser
+   - Create a new folder called "Return of Judah Videos"
+     (Right-click empty space → New Folder)
+   - Right-click that folder → Share
+   - Paste the email you copied in STEP 6
+   - Change the role from "Viewer" to "Editor"
+   - Click SEND
+
+----------------------------------------------------------------
+
+STEP 8: Copy the folder ID
+   - Double-click your "Return of Judah Videos" folder to open it
+   - Look at the browser address bar. The URL will look like:
+     https://drive.google.com/drive/folders/1aBcDeFgHiJkLmNoPqRsTuVwXyZ
+   - Copy everything AFTER the last /
+     That long string of letters and numbers is your FOLDER ID.
+     Example:  1aBcDeFgHiJkLmNoPqRsTuVwXyZ
+
+================================================================
+PART 3 — SAVE YOUR FOLDER ID (1 step)
+================================================================
+
+STEP 9: Open the .env file in Notepad
+   (It is in the main ai-video folder. If it does not exist,
+    copy .env.example and rename the copy to .env)
+
+   Find this line:
+      GOOGLE_DRIVE_FOLDER_ID=your-google-drive-folder-id
+
+   Replace  your-google-drive-folder-id  with the ID you copied in STEP 8.
+
+   Example after editing:
+      GOOGLE_DRIVE_FOLDER_ID=1aBcDeFgHiJkLmNoPqRsTuVwXyZ
+
+   Save the file.
+
+================================================================
+YOU ARE DONE WITH SETUP
+================================================================
+
+To upload a video to Drive, just double-click:
+   UPLOAD-TO-DRIVE.bat
+
+That's it.
