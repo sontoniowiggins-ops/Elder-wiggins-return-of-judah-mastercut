@@ -1,16 +1,7 @@
-// Generates images one at a time using DALL-E 3 HD
+// Generates ALL scene images using DALL-E 3 HD
 // Run: node scripts/generate-images.js
 // Requires OPENAI_API_KEY in .env
-//
-// IMAGES THIS SCRIPT WILL GENERATE:
-//   scene-01-scroll.png     — Opening parchment scroll
-//   scene-03-spain.png      — Spain/Portugal dock, Hebrew captives + Roman soldiers (REGENERATED)
-//   scene-06-slavery.png    — Iron yokes, slave ship
-//
-// IMAGES ALREADY GENERATED (copy manually to public/images/):
-//   scene-02-jerusalem.png  — Black Hebrews in chains, Jerusalem burning
-//   scene-04-westafrica.png — West African king on throne, marketplace
-//   scene-05-maps.png       — Ancient map: "Juda / Kingdom of Judah / Iudeorum Terra"
+// Already-generated images are skipped automatically.
 
 import 'dotenv/config';
 import OpenAI from 'openai';
@@ -21,86 +12,92 @@ import https from 'https';
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const OUTPUT_DIR = path.join('public', 'images');
 
-// STYLE LOCK — applied to all prompts for consistency
-// Match: deep brown African phenotype, ultra-realistic film still,
-// cinematic lighting, no painting/cartoon/fantasy
-const STYLE_LOCK =
-  'ultra-realistic cinematic film still, 8k detail, photorealistic, ' +
-  'no painting, no illustration, no cartoon, no fantasy, no AI smoothness, ' +
-  'film grain, professional color grading, serious tone, documentary style';
+const STYLE =
+  'ultra-realistic cinematic film still, 8K detail, photorealistic, ' +
+  'no painting, no illustration, no cartoon, film grain, ' +
+  'professional color grading, documentary style, serious tone';
 
 const IMAGES = [
   {
     filename: 'scene-01-scroll.png',
-    scene: 'Opening — Parchment Scroll',
+    scene: 'Opening — Ancient Parchment Scroll',
     prompt:
-      'Ancient worn parchment scroll laying on a dark wooden table, ' +
-      'Hebrew-style script clearly visible, aged ink, frayed edges, realistic fiber texture, ' +
-      'warm golden side lighting, deep shadows, dust particles floating in air, ' +
-      'shallow depth of field, dramatic cinematic lighting, no glow effects, ' +
-      'historically grounded, sacred atmosphere, extremely detailed, ' + STYLE_LOCK,
+      'Ancient worn parchment scroll on a dark wooden table, Hebrew-style script visible, ' +
+      'aged ink, frayed edges, realistic fiber texture, warm golden side lighting, ' +
+      'deep shadows, dust particles in air, shallow depth of field, ' +
+      'dramatic cinematic lighting, sacred atmosphere, extremely detailed, ' + STYLE,
+  },
+  {
+    filename: 'scene-02-jerusalem.png',
+    scene: 'Jerusalem 70 AD — City in Flames',
+    prompt:
+      'Ancient walled city of Jerusalem engulfed in fire and thick black smoke at night, ' +
+      'massive stone temple walls crumbling, orange and red flames reflecting on stone, ' +
+      'silhouettes of people fleeing through archways, Roman military banners visible, ' +
+      'dramatic wide establishing shot, debris falling, enormous scale of destruction, ' +
+      'dark and powerful atmosphere, cinematic historical epic, ' + STYLE,
   },
   {
     filename: 'scene-03-spain.png',
-    scene: 'Spain/Portugal — Hebrew Captives Arriving at Port',
+    scene: 'Spain — Ancient Harbor and Ships',
     prompt:
-      'Ultra-realistic cinematic historical scene, 8K. ' +
-      'Massive ancient dock in Spain or Portugal, stone port city buildings in background, ' +
-      'large wooden Roman-era transport ships unloading thousands of captives at harbor. ' +
-      'FOREGROUND: Black Hebrew men with deep brown skin, African phenotype, ' +
-      'faces sharp and clearly visible, strong features, textured natural hair, ' +
-      'wearing worn torn linen garments, iron chains at neck and wrists, ' +
-      'expressions exhausted but deeply dignified and proud. ' +
-      'MIDGROUND: hundreds of captives descending ship gangplanks, massive crowd scale. ' +
-      'RIGHT SIDE: wealthy Black noblemen in royal robes, gold embroidery, ' +
-      'head coverings, handing coins to soldiers, redeeming captives. ' +
-      'LEFT SIDE: Roman soldiers, clearly white European appearance, ' +
-      'full Roman armor, red-plumed helmets, controlling captives with authority. ' +
-      'LIGHTING: deep golden cinematic sunset lighting, dramatic long shadows, ' +
-      'dust particles in air, warm amber and orange glow, epic scale. ' +
-      'Style reference: rich sepia-gold color palette like an illuminated manuscript painting, ' +
-      'painterly realism matching a cinematic historical epic, sharp detailed faces, ' +
-      'NO soft focus, NO racial ambiguity, NO cartoon, NO blur, ' +
-      'faces must be sharp expressive and detailed, ' +
-      'emotional powerful epic historical tone, ' + STYLE_LOCK,
+      'Vast medieval Mediterranean harbor in Spain at golden sunset, massive stone dock, ' +
+      'large wooden sailing ships being loaded, hundreds of people on the docks, ' +
+      'grand stone city buildings in the background, dramatic long shadows, ' +
+      'warm amber and orange light, dust in the air, epic historical scale, ' +
+      'cinematic wide shot, emotional atmosphere, ' + STYLE,
   },
   {
-    filename: 'scene-07-deuteronomy.png',
-    scene: 'Deuteronomy 28 — Moses Warning',
+    filename: 'scene-04-westafrica.png',
+    scene: 'West Africa — Ancient Kingdom',
     prompt:
-      'Ancient Black Hebrew prophet standing on a mountain, deep brown skin, African phenotype, ' +
-      'long white robes, arms raised to the heavens, dramatic stormy sky behind him, ' +
-      'lightning in background, large crowd of Black Israelites below listening, ' +
-      'expressions of fear and solemnity, ancient stone tablets visible, ' +
-      'warm golden light from above cutting through dark clouds, ' +
-      'epic cinematic scale, documentary historical style, sharp detailed faces, ' +
-      'emotional and powerful, ' + STYLE_LOCK,
+      'Majestic ancient West African kingdom at golden hour, ' +
+      'ornate carved stone palace architecture, bustling marketplace with traders, ' +
+      'colorful fabrics, gold artifacts on display, tall baobab trees, ' +
+      'people in traditional royal and merchant dress, ' +
+      'prosperous and civilized atmosphere, warm golden sunset light, ' +
+      'wide cinematic establishing shot, ' + STYLE,
   },
   {
-    filename: 'scene-08-americas.png',
-    scene: 'The Americas — Ships Arriving at New World Shore',
+    filename: 'scene-05-maps.png',
+    scene: 'Ancient Maps — Judah in Africa',
     prompt:
-      'Dramatic wide cinematic shot: three large 16th century wooden galleon sailing ships ' +
-      'approaching a lush tropical Caribbean coastline at golden dusk, ' +
-      'massive white sails billowing, dark hulls cutting through deep turquoise-green water, ' +
-      'tall palm trees lining the shore, dense jungle hills in background, ' +
-      'dramatic overcast amber and gray sky with rays of sunlight breaking through clouds, ' +
-      'ocean mist over water, historically accurate ship rigging and flags, ' +
-      'powerful and ominous atmosphere, wide establishing shot, ' +
-      'warm golden-amber color grading, emotional and cinematic, ' + STYLE_LOCK,
+      'Close-up of an authentic antique map from the 1500s on worn parchment, ' +
+      'hand-drawn coastlines of West Africa, old Latin text labels, ' +
+      'the word "IVDAH" or "JUDAH" clearly written on the African continent, ' +
+      'compass rose, aged ink with visible cracking, warm side lighting, ' +
+      'cartographic manuscript details, museum quality document photography, ' + STYLE,
   },
   {
     filename: 'scene-06-slavery.png',
-    scene: 'Prophecy — Iron and Ships',
+    scene: 'The Prophecy — Iron and Ships',
     prompt:
-      'Close-up still life of heavy ancient iron neck collar and thick iron chain links ' +
-      'resting on weathered dark wood planks of a ship deck, ' +
-      'dramatic side lighting casting deep shadows, rust and age on the iron, ' +
-      'ocean water visible through gaps in wood, stormy dark sky above, ' +
-      'old wooden ship mast and rigging in background, ' +
-      'powerful and sobering historical artifact documentary photography, ' +
-      'cold blue-gray color grading, shallow depth of field, extreme detail on iron texture, ' +
-      'cinematic and emotional, ' + STYLE_LOCK,
+      'Dramatic wide shot of a massive dark wooden sailing ship at a West African port at dusk, ' +
+      'ominous stormy sky, rough ocean waves, dock workers and sailors visible as silhouettes, ' +
+      'heavy iron chains and iron collar displayed as artifacts on worn dock wood in foreground, ' +
+      'rust texture on iron, dramatic cold blue-gray lighting, ' +
+      'powerful and sobering historical atmosphere, ' + STYLE,
+  },
+  {
+    filename: 'scene-07-deuteronomy.png',
+    scene: 'Deuteronomy 28 — Prophet on the Mountain',
+    prompt:
+      'Ancient dark-skinned prophet standing on a rocky mountain peak, long white robes, ' +
+      'arms raised to the heavens, dramatic stormy sky with lightning in background, ' +
+      'large crowd of people below at the mountain base, ' +
+      'expressions of awe and fear, ancient stone tablets visible, ' +
+      'warm golden light from above cutting through dark storm clouds, ' +
+      'epic cinematic wide shot, powerful and emotional, ' + STYLE,
+  },
+  {
+    filename: 'scene-08-americas.png',
+    scene: 'The Americas — Ships Arriving at New World',
+    prompt:
+      'Three large 16th century wooden galleon sailing ships approaching a tropical Caribbean ' +
+      'coastline at golden dusk, massive white sails billowing, dark hulls on turquoise water, ' +
+      'tall palm trees lining the shore, dense green jungle hills, ' +
+      'dramatic amber and gray sky with rays of light breaking through clouds, ' +
+      'ocean mist, wide establishing cinematic shot, ominous and powerful atmosphere, ' + STYLE,
   },
 ];
 
@@ -117,69 +114,59 @@ async function downloadImage(url, filepath) {
   });
 }
 
-async function generateImage(item, index) {
-  const outputPath = path.join(OUTPUT_DIR, item.filename);
-
-  if (fs.existsSync(outputPath)) {
-    console.log(`  [skip] ${item.filename} already exists`);
-    return;
-  }
-
-  console.log(`\n[${index + 1}/${IMAGES.length}] ${item.scene}`);
-  console.log('  Sending to DALL-E 3 HD…');
-
-  try {
-    const response = await client.images.generate({
-      model: 'dall-e-3',
-      prompt: item.prompt,
-      n: 1,
-      size: '1792x1024',  // 16:9 — works for both YouTube and TikTok crop
-      quality: 'hd',
-      style: 'natural',   // natural = photorealistic
-    });
-
-    const imageUrl = response.data[0].url;
-    console.log('  Downloading…');
-    await downloadImage(imageUrl, outputPath);
-    console.log(`  ✓ Saved → ${outputPath}`);
-
-    if (index < IMAGES.length - 1) {
-      console.log('  Waiting 4 seconds…');
-      await new Promise((r) => setTimeout(r, 4000));
-    }
-  } catch (err) {
-    console.error(`  ✗ ERROR: ${err.message}`);
-    if (err.status === 400) {
-      console.error('  DALL-E rejected this prompt. Try rephrasing.');
-    }
-  }
-}
-
 async function main() {
   if (!process.env.OPENAI_API_KEY) {
-    console.error('\nERROR: OPENAI_API_KEY not set.');
-    console.error('Run: cp .env.example .env  and add your key.\n');
+    console.error('\nERROR: OPENAI_API_KEY not set. Add it to your .env file.\n');
     process.exit(1);
   }
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  console.log('╔══════════════════════════════════════╗');
-  console.log('║  RETURN OF JUDAH — Image Generator   ║');
-  console.log('║  Generating 2 remaining images       ║');
-  console.log('╚══════════════════════════════════════╝');
-  console.log('\nNOTE: Copy your 4 existing images into public/images/ first:');
-  console.log('  scene-02-jerusalem.png');
-  console.log('  scene-03-spain.png');
-  console.log('  scene-04-westafrica.png');
-  console.log('  scene-05-maps.png\n');
+  const missing = IMAGES.filter(img => !fs.existsSync(path.join(OUTPUT_DIR, img.filename)));
 
-  for (let i = 0; i < IMAGES.length; i++) {
-    await generateImage(IMAGES[i], i);
+  console.log('╔══════════════════════════════════════╗');
+  console.log('║   RETURN OF JUDAH — Image Generator  ║');
+  console.log(`║   ${missing.length} image(s) to generate              ║`);
+  console.log('╚══════════════════════════════════════╝\n');
+
+  if (missing.length === 0) {
+    console.log('✅ All images already exist! Run npm start to preview.');
+    return;
   }
 
-  console.log('\n✅ Done! All images saved to:', OUTPUT_DIR);
-  console.log('Next: npm run generate:voice  →  generate voiceover');
+  for (let i = 0; i < IMAGES.length; i++) {
+    const item = IMAGES[i];
+    const outputPath = path.join(OUTPUT_DIR, item.filename);
+
+    if (fs.existsSync(outputPath)) {
+      console.log(`  [skip] ${item.filename}`);
+      continue;
+    }
+
+    console.log(`\n[${i + 1}/${IMAGES.length}] ${item.scene}`);
+    console.log('  Sending to DALL-E 3 HD…');
+
+    try {
+      const response = await client.images.generate({
+        model: 'dall-e-3',
+        prompt: item.prompt,
+        n: 1,
+        size: '1792x1024',
+        quality: 'hd',
+        style: 'natural',
+      });
+
+      await downloadImage(response.data[0].url, outputPath);
+      console.log(`  ✓ Saved → ${outputPath}`);
+
+      if (i < IMAGES.length - 1) await new Promise(r => setTimeout(r, 4000));
+    } catch (err) {
+      console.error(`  ✗ FAILED: ${err.message}`);
+    }
+  }
+
+  console.log('\n✅ Done! All images saved to public/images/');
+  console.log('Next: npm start  →  preview your video\n');
 }
 
 main();
