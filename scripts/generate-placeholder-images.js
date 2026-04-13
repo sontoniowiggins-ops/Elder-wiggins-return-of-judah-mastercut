@@ -9,16 +9,16 @@ const WIDTH = 1920;
 const HEIGHT = 1080;
 const OUTPUT_DIR = path.join(__dirname, '../public/images');
 
-// Scene colors - cinematic dark gradients [top-color, bottom-color]
+// Scene colors — vivid cinematic gradients, bright enough to show through ColorGrade filters
 const scenes = [
-  { file: 'scene-01-scroll.png',       top: [20, 12, 5],    bottom: [60, 40, 15]  }, // warm parchment
-  { file: 'scene-02-jerusalem.png',    top: [40, 8, 0],     bottom: [100, 30, 5]  }, // fire/Jerusalem
-  { file: 'scene-03-spain.png',        top: [5, 15, 40],    bottom: [15, 35, 80]  }, // deep blue/Spain
-  { file: 'scene-04-westafrica.png',   top: [8, 20, 5],     bottom: [25, 55, 15]  }, // deep green/Africa
-  { file: 'scene-05-maps.png',         top: [5, 10, 30],    bottom: [10, 25, 60]  }, // navy/maps
-  { file: 'scene-06-slavery.png',      top: [5, 3, 3],      bottom: [20, 10, 8]   }, // very dark/heavy
-  { file: 'scene-07-deuteronomy.png',  top: [25, 15, 5],    bottom: [70, 45, 10]  }, // dark gold/prophecy
-  { file: 'scene-08-americas.png',     top: [8, 5, 25],     bottom: [20, 12, 60]  }, // deep indigo/Americas
+  { file: 'scene-01-scroll.png',       top: [160, 110, 40],  bottom: [210, 160, 70]  }, // warm gold parchment
+  { file: 'scene-02-jerusalem.png',    top: [200, 60, 10],   bottom: [255, 130, 20]  }, // fire/Jerusalem burning
+  { file: 'scene-03-spain.png',        top: [30, 80, 180],   bottom: [70, 130, 220]  }, // Mediterranean blue
+  { file: 'scene-04-westafrica.png',   top: [20, 110, 35],   bottom: [80, 165, 55]   }, // lush green savanna
+  { file: 'scene-05-maps.png',         top: [195, 160, 95],  bottom: [230, 200, 130] }, // aged sepia parchment
+  { file: 'scene-06-slavery.png',      top: [55, 75, 190],   bottom: [95, 125, 230]  }, // cold blue ocean (x0.75 brightness)
+  { file: 'scene-07-deuteronomy.png',  top: [180, 125, 30],  bottom: [230, 170, 55]  }, // desert amber/gold
+  { file: 'scene-08-americas.png',     top: [30, 55, 175],   bottom: [70, 105, 215]  }, // deep ocean indigo (x0.75 brightness)
 ];
 
 function writePNG(filePath, pixels) {
