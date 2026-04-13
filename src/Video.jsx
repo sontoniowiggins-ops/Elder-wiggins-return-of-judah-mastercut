@@ -1,11 +1,28 @@
 import { AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig } from 'remotion';
-import { KenBurns } from './components/KenBurns';
 import { TextOverlay } from './components/TextOverlay';
 import { ScriptureScene } from './components/ScriptureScene';
 import { ColorGrade } from './components/ColorGrade';
 import { TitleCard } from './components/TitleCard';
 import { ScrollScene } from './components/scenes/ScrollScene';
+import { JerusalemScene } from './components/scenes/JerusalemScene';
+import { SpainScene } from './components/scenes/SpainScene';
+import { WestAfricaScene } from './components/scenes/WestAfricaScene';
+import { MapsScene } from './components/scenes/MapsScene';
+import { SlaveryScene } from './components/scenes/SlaveryScene';
+import { DeuteronomyScene } from './components/scenes/DeuteronomyScene';
+import { AmericasScene } from './components/scenes/AmericasScene';
 import { SCENES } from './scenes';
+
+// Map scene ID → cinematic background component
+const SCENE_BACKGROUNDS = {
+  'deuteronomy-warning': DeuteronomyScene,
+  'jerusalem-70ad':      JerusalemScene,
+  'spain-portugal':      SpainScene,
+  'west-africa':         WestAfricaScene,
+  'maps':                MapsScene,
+  'slavery-prophecy':    SlaveryScene,
+  'americas':            AmericasScene,
+};
 
 export const SephardicVideo = ({ platform = 'youtube' }) => {
   const { fps } = useVideoConfig();
@@ -18,6 +35,8 @@ export const SephardicVideo = ({ platform = 'youtube' }) => {
         const from = offset;
         offset += durationInFrames;
 
+        const Background = SCENE_BACKGROUNDS[scene.id] || null;
+
         return (
           <Sequence key={scene.id} from={from} durationInFrames={durationInFrames}>
             <ColorGrade grade={scene.colorGrade}>
@@ -26,7 +45,7 @@ export const SephardicVideo = ({ platform = 'youtube' }) => {
                 <Audio src={staticFile(`audio/${scene.audio}`)} />
               )}
 
-              {/* Opening scroll — animated background + scripture text */}
+              {/* Opening scroll — animated parchment + scripture text */}
               {scene.type === 'scripture' && (
                 <AbsoluteFill>
                   <ScrollScene />
@@ -38,15 +57,10 @@ export const SephardicVideo = ({ platform = 'youtube' }) => {
                 </AbsoluteFill>
               )}
 
-              {/* All scenes use real DALL-E photorealistic images */}
+              {/* All scenes use cinematic animated backgrounds */}
               {scene.type === 'scene' && (
                 <AbsoluteFill>
-                  <KenBurns
-                    src={scene.image}
-                    direction={i % 2 === 0 ? 'right' : 'left'}
-                    startScale={1.0}
-                    endScale={1.12}
-                  />
+                  {Background && <Background />}
                   <TextOverlay lines={scene.lines} platform={platform} />
                 </AbsoluteFill>
               )}
