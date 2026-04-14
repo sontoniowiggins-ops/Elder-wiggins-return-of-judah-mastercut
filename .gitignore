@@ -2,11 +2,8 @@ node_modules/
 .env
 out/
 public/audio/
-# Keep images folder but ignore actual image files
-public/images/*.png
-public/images/*.jpg
-public/images/*.jpeg
-public/images/*.webp
+# Images are committed so they can be rendered server-side
+# public/images/*.png  ← removed so DALL-E images can be pushed
 # Google service account key — never commit this
 credentials/*.json
 # Google credentials — never commit this
