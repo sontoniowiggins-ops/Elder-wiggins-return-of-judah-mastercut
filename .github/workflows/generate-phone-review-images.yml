@@ -6,9 +6,10 @@ on:
       provider:
         description: Image provider
         required: true
-        default: leonardo
+        default: auto
         type: choice
         options:
+          - auto
           - leonardo
           - openai
 
@@ -32,7 +33,9 @@ jobs:
         run: npm install
 
       - name: Generate with Leonardo
-        if: ${{ github.event.inputs.provider == 'leonardo' }}
+        id: leonardo_generate
+        if: ${{ github.event.inputs.provider == 'auto' || github.event.inputs.provider == 'leonardo' }}
+        continue-on-error: true
         env:
           LEONARDO_API_KEY: ${{ secrets.LEONARDO_API_KEY }}
         run: npm run generate:leonardo:batch01
@@ -42,6 +45,18 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npm run generate:images
+
+      - name: Fallback to OpenAI if Leonardo failed
+        if: ${{ (github.event.inputs.provider == 'auto' || github.event.inputs.provider == 'leonardo') && steps.leonardo_generate.outcome == 'failure' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run generate:images
+
+      - name: Fail if Leonardo failed and OpenAI fallback is not available
+        if: ${{ (github.event.inputs.provider == 'auto' || github.event.inputs.provider == 'leonardo') && steps.leonardo_generate.outcome == 'failure' && secrets.OPENAI_API_KEY == '' }}
+        run: |
+          echo "Leonardo failed and OPENAI_API_KEY is not configured."
+          exit 1
 
       - name: Commit generated images
         run: |
