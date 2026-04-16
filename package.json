@@ -2,12 +2,14 @@
   "name": "elder-wiggins-return-of-judah-mastercut",
   "version": "1.0.0",
   "description": "Elder Wiggins Return of Judah Mastercut Remotion Project",
+  "type": "module",
   "scripts": {
     "start": "remotion studio src/index.jsx",
     "build:tiktok": "remotion render src/index.jsx SephardicTikTok out/ELDER_WIGGINS_RETURN_OF_JUDAH_TIKTOK_MASTER.mp4",
     "build:youtube": "remotion render src/index.jsx SephardicYouTube out/ELDER_WIGGINS_RETURN_OF_JUDAH_YOUTUBE_MASTER.mp4",
     "build:master": "remotion render src/index.jsx SephardicYouTube out/ELDER_WIGGINS_RETURN_OF_JUDAH_MASTER_FINAL.mp4",
     "generate:images": "node scripts/generate-images.js",
+    "generate:leonardo:batch01": "node scripts/generate-leonardo-batch01.js",
     "generate:voice": "node scripts/generate-voiceover.js",
     "generate:all": "node scripts/generate-images.js && node scripts/generate-voiceover.js"
   },
