@@ -1,0 +1,62 @@
+name: Generate Phone Review Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Image provider
+        required: true
+        default: leonardo
+        type: choice
+        options:
+          - leonardo
+          - openai
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm install
+
+      - name: Generate with Leonardo
+        if: ${{ github.event.inputs.provider == 'leonardo' }}
+        env:
+          LEONARDO_API_KEY: ${{ secrets.LEONARDO_API_KEY }}
+        run: npm run generate:leonardo:batch01
+
+      - name: Generate with OpenAI
+        if: ${{ github.event.inputs.provider == 'openai' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run generate:images
+
+      - name: Commit generated images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images
+          if git diff --cached --quiet; then
+            echo "No image changes to commit"
+            exit 0
+          fi
+          git commit -m "Generate phone review images via ${{ github.event.inputs.provider }}"
+          git push
+
+      - name: Upload image artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-phone-review-images
+          path: public/images
